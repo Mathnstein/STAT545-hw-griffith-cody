@@ -1,0 +1,104 @@
+---
+title: "Hw02"
+author: "Cody"
+date: "September 22, 2017"
+output: pdf_document
+---
+
+```{r}
+library(gapminder)
+library(tidyverse)
+```
+# Smell test
+
+* Is it a data.frame, a matrix, a vector, a list?
+
+```{r}
+str(gapminder)
+```
+
+A: Gapminder is a data.frame.
+
+* What’s its class?
+
+```{r}
+class(gapminder)
+```
+
+A: It is actually a tibble, a particular kind of data.frame favorable in the tidyverse.
+
+* How many variables/columns?
+
+```{r}
+ncol(gapminder)
+```
+A: 6
+
+* How many rows/observations?
+
+```{r}
+nrow(gapminder)
+```
+A: 1704
+
+* Can you get these facts about “extent” or “size” in more than one way? Can you imagine different functions being useful in different contexts?
+
+```{r}
+dim(gapminder)
+```
+A: Yes, there are redundancies in some of these functions and theres good reason for it! Perhaps different inputs are useful for one function over another, the speed of computation could be better for a particular data type in one function or even the outputs of the functions can be used in different manors.
+
+* What data type is each variable?
+
+```{r}
+head(gapminder)
+```
+A: Country and Continent- Factors,
+Year and Population- Integers,
+Life Expectancy and GDP per Capita- Double.
+
+# Explore individual Variables
+Categorical Variable= Country:
+
+* What are possible values (or range, whichever is appropriate) of each variable?
+* What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
+* Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).
+
+Quantitative Variable= Life Expectancy:
+
+* What are possible values (or range, whichever is appropriate) of each variable?
+* What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
+* Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).
+
+# Explore various plot types
+
+Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
+
+* A scatterplot of two quantitative variables.
+* A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.
+* A plot of one quantitative variable and one categorical. Maybe boxplots for several continents or countries.
+
+You don’t have to use all the data in every plot! It’s fine to filter down to one country or small handful of countries.
+
+# Use filter(), select() and %>% 
+
+Use filter() to create data subsets that you want to plot.
+
+Practice piping together filter() and select(). Possibly even piping into ggplot().
+
+# But I want to do more!
+
+Evaluate this code and describe the result. Presumably the analyst’s intent was to get the data for Rwanda and Afghanistan. Did they succeed? Why or why not? If not, what is the correct way to do this?
+
+```{r}
+filter(gapminder, country == c("Rwanda", "Afghanistan"))
+```
+
+Present numerical tables in a more attractive form, such as using  knitr::kable().
+
+(SEE HW2)
+
+
+# Reflection
+
+Reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc. What things were hard, even though you saw them in class? What was easy(-ish) even though we haven’t done it in class?
