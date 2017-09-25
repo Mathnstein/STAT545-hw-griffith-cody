@@ -58,16 +58,41 @@ Year and Population- Integers,
 Life Expectancy and GDP per Capita- Double.
 
 # Explore individual Variables
-Categorical Variable= Country:
+
+## Categorical Variable= Country:
 
 * What are possible values (or range, whichever is appropriate) of each variable?
+
+```{r}
+summary(gapminder$country)
+```
+A: This variable takes on strings as its possible outputs, from above we see that every country has 12 different entries.
+
 * What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
+
+A: Like above, we see that every country has a uniform number of samples so if we consider the distribution of countries it also would be uniformly distributed. Because this variable is categorical a mean and spread don't make a lot of sense to talk about.
+
 * Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).
 
-Quantitative Variable= Life Expectancy:
+## Quantitative Variable= Life Expectancy:
 
 * What are possible values (or range, whichever is appropriate) of each variable?
+
+```{r}
+summary(gapminder$lifeExp)
+```
+A: Since this is a numeric variable that is on a continuous scale, everything is quite readily available to find. The range is 82.6-23.6=59 years.
+
 * What values are typical? What’s the spread? What’s the distribution? Etc., tailored to the variable at hand.
+
+```{r}
+mean(gapminder$lifeExp)
+sd(gapminder$lifeExp)
+hist(gapminder$lifeExp,col="orange",
+     main="Histogram",xlab="Life Expectancy")
+```
+A: The average life expectancy is 60.71 years where its standard deviation is 12.92 years. This tells us that our data is quite spread and we commonly see values in the range of (47,73), one standard deviation away from the mean. From the histogram, we can see a bit of right tailed behavior which indicates that larger values are more probable than smaller. I could also be convinced that this plot indicates a nonsymmetric bimodal structure and thus our mean will not be an accurate measure of center.
+
 * Feel free to use summary stats, tables, figures. We’re NOT expecting high production value (yet).
 
 # Explore various plot types
@@ -75,8 +100,28 @@ Quantitative Variable= Life Expectancy:
 Make a few plots, probably of the same variable you chose to characterize numerically. Try to explore more than one plot type. Just as an example of what I mean:
 
 * A scatterplot of two quantitative variables.
+
+```{r}
+q <- ggplot(gapminder,aes(x=pop,y=lifeExp))
+q+geom_point(alpha=.25,color="orange")
+p <- ggplot(gapminder,aes(x=log10(pop),y=lifeExp))
+p+geom_point(alpha=.25,color="orange")
+```
+
 * A plot of one quantitative variable. Maybe a histogram or densityplot or frequency polygon.
+
+```{r}
+d <- density(gapminder$lifeExp);
+plot(d,col="orange",main="Pdf of Life Expectancy",
+     xlab="Life Expectancy")
+```
+
 * A plot of one quantitative variable and one categorical. Maybe boxplots for several continents or countries.
+
+```{r}
+boxplot(lifeExp~continent,data=gapminder,col="orange",
+        xlab="Continent",ylab="Life Expectancy",main="Boxplots")
+```
 
 You don’t have to use all the data in every plot! It’s fine to filter down to one country or small handful of countries.
 
@@ -84,7 +129,24 @@ You don’t have to use all the data in every plot! It’s fine to filter down t
 
 Use filter() to create data subsets that you want to plot.
 
+```{r}
+filter(gapminder,continent=="Europe",lifeExp>60)
+```
+
 Practice piping together filter() and select(). Possibly even piping into ggplot().
+
+```{r}
+gapminder %>% 
+  filter(continent=="Europe",lifeExp>60) %>% 
+  select(pop,lifeExp) %>% 
+  ggplot(aes(x=pop,y=lifeExp))+geom_point(alpha=.25,color="orange")
+
+gapminder %>% 
+  filter(continent=="Europe",lifeExp>60) %>% 
+  select(pop,lifeExp) %>% 
+  ggplot(aes(x=log10(pop),y=lifeExp))+geom_point(alpha=.25,color="orange")
+```
+Note: Because population is exponential, it makes more sense to represent it by scaling it logarithmically.
 
 # But I want to do more!
 
@@ -93,12 +155,33 @@ Evaluate this code and describe the result. Presumably the analyst’s intent wa
 ```{r}
 filter(gapminder, country == c("Rwanda", "Afghanistan"))
 ```
+A: No, not all of the required data is here. The reason this fails is that we are filtering by a vector of factors. What we really want to filter by is an or statement that evaluates true for both countries.
 
-Present numerical tables in a more attractive form, such as using  knitr::kable().
+```{r}
+filter(gapminder,country=="Afghanistan"|country=="Rwanda")
+```
+Use more of the dplyr functions in the data set.
 
-(SEE HW2)
+```{r}
+newData=mutate(gapminder,
+       gdp=pop*gdpPercap)
+hist(log(newData$gdp),col="orange",
+     xlab="Log GDP",main="Histogram")
+```
+Note: A very normal histogram!
 
+```{r}
+p <- ggplot(newData,aes(x=log(gdp),y=lifeExp))
+p+geom_point(alpha=.25,color="orange")
+```
+Note: The relationship here is becoming pretty linear! A regression analysis would prove to show some cool trends in the data of GDP and Life Expectancy!
 
 # Reflection
 
 Reflect on what was hard/easy, problems you solved, helpful tutorials you read, etc. What things were hard, even though you saw them in class? What was easy(-ish) even though we haven’t done it in class?
+
+A lot of the functionality of the exercises here were very self explanatory! I rarely had to refer to the in class exercises but when I did, everything I needed was there. I did have to ?___ a few commands and once I did need to pull up an example of multiple box plots by factor, but none of this ever took long!
+
+I wouldn't say there were too many challenges here as this homework proved to be more practice which is always needed when programming in a new language.
+
+As for the data set, I had fun comparing variables in different styles of plots and I can easily spend a lot of time making 100 different plots to see different relationships. Also adding features to the plot an exploring options is always a ton of fun!
