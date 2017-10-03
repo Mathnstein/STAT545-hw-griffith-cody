@@ -36,7 +36,7 @@ Make observations about what your tables/figures show and about the process.
 
 ### Task menu
 
-Get the maximum and minimum of GDP per capita for all continents.
+#### Get the maximum and minimum of GDP per capita for all continents.
 
 ```{r}
 newdata <- gapminder %>% 
@@ -56,7 +56,7 @@ I have plotted both the regular boxplots as well as the logarithmic boxplots. In
 
 Note: The strange warning message that says summarise_each is deprecated. Not quite sure what this means but things seem to be functioning. I used summarise_each because I wanted to map over several functions and the other commands didn't seem to do what I was looking for.
 
-Look at the spread of GDP per capita within the continents.
+#### Look at the spread of GDP per capita within the continents.
 
 ```{r}
 newdata <- gapminder %>% 
@@ -78,7 +78,7 @@ Note: Same warning message. Again, the code and plots seem to function how I wan
 
 
 
-How is life expectancy changing over time on different continents?
+#### How is life expectancy changing over time on different continents?
 
 ```{r}
 
