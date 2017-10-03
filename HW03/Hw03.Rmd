@@ -22,9 +22,7 @@ The goal is to manipulate and explore a dataset with the `dplyr` package, comple
 
 Your homework should serve as your own personal cheatsheet in the future for ways to manipulate a dataset and produce companion figures. Give yourself the cheatsheet you deserve! Check out the [sampler concept](http://en.wikipedia.org/wiki/Sampler_(needlework)) for inspiration.
 
-#### Gapminder data
 
-Work with the [Gapminder excerpt](http://tiny.cc/gapminder). *If you really want to, you can explore a different dataset but get permission from Jenny. Self-assess the suitability of your dataset by reading [this issue](https://github.com/STAT545-UBC/Discussion/issues/115).*
 
 ### Your mission, high-level
 
@@ -35,21 +33,6 @@ Pick at least three of the tasks below and attack each with a table and figure.
 
 Make observations about what your tables/figures show and about the process.
 
-If you want to do something comparable but different, i.e. swap one quantitative variable for another, be my guest! If you are feeling inspired and curious, then we're doing this right. Go for it.
-
-Relax about the following things:
-
-  * Tidying/reshaping is NOT your assignment. Many of your tables will be awkwardly shaped in the report. That's OK.
-  * Table beauty is not a big deal. Simply printing to "screen" is fine. You could also try the `knitr::kable()` function. Assuming `my_df` is a data.frame, here's an R chunk that should print it as a decent-looking table:
-  
-
-
-
-<pre><code>```{r results = 'asis'}
-knitr::kable(my_df)
-
-
-  * For all things, graphical and tabular, if you're dissatisfied with a result, discuss the problem, what you've tried and move on.
 
 ### Task menu
 
@@ -70,6 +53,7 @@ newdata %>%
   summarise_each(funs(min,max),GDP,logGDP)
 ```
 I have plotted both the regular boxplots as well as the logarithmic boxplots. In the regular case, we can hardly see any kind of distribution as the values are too large to be compared in a reasonable window. Instead, considering the logged plots, there is a bit more of a sense of distribution and even a bit of normality. But the table then produces the max and min in both the regular and logged case.
+
 Note: The strange warning message that says summarise_each is deprecated. Not quite sure what this means but things seem to be functioning. I used summarise_each because I wanted to map over several functions and the other commands didn't seem to do what I was looking for.
 
 Look at the spread of GDP per capita within the continents.
@@ -89,6 +73,7 @@ boxplot(loggdpPercap~continent,data=newdata,col="orange",
         xlab="Continent",ylab="Log GDP",main="Boxplots")
 ```
 Once again, I have used both a regular and logged version to see a bit more of a distribution. I have also reported two values to indicate the spread of the data, both the IQR and the standard deviation. Certain continents (like Africa or the Americas) seem to have a few outliers as well as the gdpPercap values are quite large and this will have impact on the standard deviation. So instead, reporting the IQR will serve as perhaps a better measure of spread.
+
 Note: Same warning message. Again, the code and plots seem to function how I want them to. This will be a good thing to ask about.
 
 
@@ -112,8 +97,11 @@ ggplot(gapminder, aes(year, lifeExp)) +
           strip.text = element_text(size=14, face="bold"))
 ```
 Here I have given two seperate plots that tell similar stories yet have a slight different conclusion. 
+
 * The first is a scatterplot by year where the colors per continent. Over this we have a simple linear regression analysis that essentially predicts all continents to have a higher life expectancy the more recent the year. But we can see that Asia has the steepest curve and perhaps Oceania and Africa tied with one another for slowest increase.
+
 * In the second plot, there is a separate analysis done per continent and we again see a general increase in life expectancy per year but we have a smoother added ontop of the points and here we do not see the trend to continue. For example, it seems that Asia is slowing down in its life expectancy where Africa is all but plateauing in it's trend.
+
 These are more or less the same plots but separated, but the different models on top of them do have slightly different things to say.
 
 
