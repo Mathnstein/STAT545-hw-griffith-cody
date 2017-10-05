@@ -1,0 +1,35 @@
+---
+title: "R Markdown Test run"
+author: "Cody"
+date: "September 16, 2017"
+output: github_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r}
+library(tidyverse)
+library(gapminder)
+```
+
+Here I will plot somethings so we can see interesting trends in Gapminder.
+
+First is the Year vs Life Expectancy,
+
+```{r}
+plot(lifeExp~year,gapminder)
+```
+
+We see that more or less the spread is the same per year, but over time the mean life expectancy seems to increase.
+
+Next consider the GDP per capita vs Life Expectancy,
+
+```{r}
+plot(lifeExp~gdpPercap,gapminder)
+```
+
+We see here that this behavior is logistic and very roughly speaking, the higher the GDP per capita the longer the life expectancy.
+
+This is enough of a quick analysis of Gapminder.
