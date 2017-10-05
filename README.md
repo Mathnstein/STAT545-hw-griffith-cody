@@ -2,5 +2,7 @@
 
 This is the main repository for my homework for this term. To find the correct folders for each assignment follow one of the links below:
 
+* [Hw 01](https://github.com/Mathnstein/STAT545-hw-griffith-cody/tree/master/HW01)
 * [Hw 02](https://github.com/Mathnstein/STAT545-hw-griffith-cody/tree/master/HW02)
 * [Hw 03](https://github.com/Mathnstein/STAT545-hw-griffith-cody/tree/master/HW03)
+* [Hw 04](https://github.com/Mathnstein/STAT545-hw-griffith-cody/tree/master/HW04)
