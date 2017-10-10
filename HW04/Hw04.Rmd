@@ -80,6 +80,8 @@ Create a second data frame, complementary to Gapminder. Join this with (part of)
 One row per country, a country variable and one or more variables with extra info, such as language spoken, NATO membership, national animal, or capitol city. If you really want to be helpful, you could attempt to make a pull request to resolve this issue, where I would like to bring ISO country codes into the gapminder package.
 One row per continent, a continent variable and one or more variables with extra info, such as northern versus southern hemisphere.
 
+* My goal here will be to try to add a column for the hemisphere of the country. This will prove to be challenging as not every continent is entirely in one hemisphere (i.e Africa or the Americas)
+
 ```{r}
 hemisphere <- data.frame(continent=c("Europe","Americas","Asia","Africa","Oceania"),
                          hemisphere=c("Northern","Northern","Northern","Northern","Southern"))
