@@ -81,29 +81,37 @@ One row per country, a country variable and one or more variables with extra inf
 One row per continent, a continent variable and one or more variables with extra info, such as northern versus southern hemisphere.
 
 ```{r}
-countandcont <- gapminder %>% 
-                  select(country,continent)
 hemisphere <- data.frame(continent=c("Europe","Americas","Asia","Africa","Oceania"),
                          hemisphere=c("Northern","Northern","Northern","Northern","Southern"))
-specialcasesAfrica <- data.frame(country=c("Botswana","Angola","Burundi","Comoros","Lesotho","Madagascar","Malawi","Mauritius","Mayotte","Mozambique","Namibia","Reunion","Rwanda","Seychelles","South Africa","Swaziland","Tanzania","Zambia","Zimbabwe"),
-                       hemisphere=c("Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern","Southern"))
-specialcasesAmericas <- 
-newgapminder <- left_join(gapminder,hemisphere)
-newgapminder <- left_join(newgapminder,specialcasesAfrica)
-newgapminder
+
+specialcasesAfrica <- data.frame(country=c("Botswana","Angola","Burundi","Comoros","Lesotho",
+                        "Madagascar","Malawi","Mauritius","Mayotte","Mozambique","Namibia",
+                        "Reunion","Rwanda","Seychelles","South Africa",
+                        "Swaziland","Tanzania","Zambia","Zimbabwe"),
+                       hemisphere=rep("Southern",19))
+
+specialcasesAmericas <- data.frame(country=c("Argentina","Bolivia","Chile","Paraguay","Peru",
+                                             "Uruguay"),
+                                   hemisphere=rep("Southern",6))
+
+newdataset <- left_join(gapminder,hemisphere,by="continent")
+newdataset <- left_join(newdataset,specialcasesAmericas,by="country")
+newdataset <- mutate(newdataset,hemisphere= ifelse(is.na(hemisphere.y),"Northern","Southern"))
+newdataset <- select(newdataset,-hemisphere.x,-hemisphere.y)
+newdataset <- left_join(newdataset,specialcasesAfrica,by="country")
+newdataset <- mutate(newdataset,hemisphere= ifelse(is.na(hemisphere.y),"Northern","Southern"))
+newdataset <- select(newdataset,-hemisphere.x,-hemisphere.y)
+
+tail(newdataset)
+
+
 ```
+I have had quite a bit of trouble trying to overwrite while merging data sets together. My goal here was to make an initial pass through by labelling the continents by their majority hemisphere and there then make corrections by continent by overwriting with a new data set. This has proved to be tedious as I can merge and mutate the data set by adding the corrections but I cannot seem to overwrite the inital pass through. I have tried:
 
+* An initial left join to get the majority hemisphere
+* Attemped to left join the corrections to this but the values do not change, no effect elsewhere.
+* Tried to do an anti join to remove values that I want to overwrite then re- left join to actually change them. I lose information and can't get it back.
+* Will try basic merge and see if this allows overwritting - Result, unsuccessful
+* My final attempt has been more of a jerryrigged solution. I created the extra column and then just did a ifelse statement to replace any values that I wanted. This only works in the binary case that I have here and would not work if there were more possibilities.
 
-## Activity #2
-
-Create your own cheatsheet patterned after mine but focused on something you care about more than comics! Inspirational examples:
-Pets I have owned + breed + friendly vs. unfriendly + ??. Join to a table of pet breed, including variables for furry vs not furry, mammal true or false, etc.
-Movies and studios….
-Athletes and teams….
-You will likely need to iterate between your data prep and your joining to make your explorations comprehensive and interesting. For example, you will want a specific amount (or lack) of overlap between the two data.frames, in order to demonstrate all the different joins. You will want both the data frames to be as small as possible, while still retaining the expository value.
-
-## Activity #3
-
-This is really an optional add-on to either of the previous activities.
-Explore the base function merge(), which also does joins. Compare and contrast with dplyr joins.
-Explore the base function match(), which is related to joins and merges, but is really more of a “table lookup”. Compare and contrast with a true join/merge.
+The final output is proof that this works as my intial pass would have labelled Zimbabwe, which is in Africa, as a northern hemisphere country. Here it is labelled at southern.
