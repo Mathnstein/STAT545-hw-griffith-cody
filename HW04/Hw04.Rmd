@@ -35,6 +35,7 @@ Take advantage of this new data shape to scatterplot life expectancy for one cou
 ```{r}
 bothcountries <- gapminder %>% 
                     filter(country=="Canada"|country=="United States")
+
 country1 <- gapminder %>% 
               filter(country=="Canada") %>% 
               mutate(CanlifeExp=lifeExp) %>% 
