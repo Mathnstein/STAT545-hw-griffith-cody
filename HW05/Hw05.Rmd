@@ -152,5 +152,5 @@ Use `ggsave()` to explicitly write a figure to file. Then use `![Alt text](/path
 ggsave("Euro_gdp_inc.pdf",goodplot,width=20,height=20,units="cm")
 ```
 
-I now have a csv and a pdf on my local computer! Here is an embedding of the image
-[My Plot](C:/Users/codyg/Desktop/Stat 545/STAT545-hw-griffith-cody/HW05/Euro_gdp_inc.pdf)
+I now have a csv and a pdf on my local computer! Here is an embedding of the image: **
+[My Plot](C:/Users/codyg/Desktop/Stat 545/STAT545-hw-griffith-cody/HW05/Euro_gdp_inc.pdf)**.
