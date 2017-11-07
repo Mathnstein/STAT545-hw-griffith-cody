@@ -1,0 +1,257 @@
+---
+title: "Hw6"
+author: "Cody"
+date: "November 6, 2017"
+output: pdf_document
+---
+
+# Stat 547M Homework 6:
+
+**Goal:** Pick (at least) two of the six (numbered) topics below and do one of the exercise prompts listed, or something comparable using your dataset of choice.
+
+```{r}
+library(tidyverse)
+library(stringr)
+```
+
+# 1. Character data
+
+Read and work the exercises in the [Strings chapter](http://r4ds.had.co.nz/strings.html) or R for Data Science.
+
+## Exercises 1
+
+1. In code that doesn’t use stringr, you’ll often see paste() and paste0(). What’s the difference between the two functions? What stringr function are they equivalent to? How do the functions differ in their handling of NA?
+
+A: paste() and paste0() have a different default value set for the 'sep' arguement. 
+```{r}
+paste("hello","world") #Default sep=" "
+paste0("hello","world") #Default sep=""
+```
+The stringr function is str_c()
+```{r}
+str_c("hello","world")
+```
+So we see that the default separator is also sep="".
+If NAs are involved, str_c() will refuse to join where the others will treat them as strings.
+The NA has to be dealt with with a different function, str_replace_na(). This will turn an NA into a string "NA". Once this is done, then all functions behave similar.
+```{r}
+paste("Hello",NA)
+paste0("Hello",NA)
+str_c("Hello",NA)
+
+paste("Hello",str_replace_na(NA))
+paste0("Hello",str_replace_na(NA))
+str_c("Hello",str_replace_na(NA))
+```
+
+2. In your own words, describe the difference between the sep and collapse arguments to str_c().
+
+Sep will induce the type of spacing between the joined strings. For example,
+```{r}
+str_c(c("This","an"),c("is","example"),sep="+")
+```
+But clearly we would have wanted this to be one string and this is where the collapse arguement will put the separate strings together.
+```{r}
+str_c(c("This","an"),c("is","example"),collapse="+")
+```
+Together, we can make the correct string,
+```{r}
+str_c(c("This","an"),c("is","example"),sep=" ",collapse=" ")
+```
+
+
+3. Use str_length() and str_sub() to extract the middle character from a string. What will you do if the string has an even number of characters?
+
+A: For the even length string, I'd return both values around the middle value.
+
+```{r}
+exampleodd <- "Strings"
+exampleeven <- "Cody"
+
+oddlength <- str_length(exampleodd)
+oddanswer <- ceiling(oddlength/2)
+evenlength <- str_length(exampleeven)
+evenanswer <- evenlength/2
+
+str_sub(exampleodd,oddanswer,oddanswer)
+str_sub(exampleeven,evenanswer,evenanswer+1)
+```
+
+
+4. What does str_wrap() do? When might you want to use it?
+
+A: str_wrap is a way to break a string into smaller pieces but by following a special algorithm for keeping words **together** "Knuth-Plass wrapping". This is useful for extracting information out of larger strings like a book or article for example.
+
+5. What does str_trim() do? What’s the opposite of str_trim()?
+
+A: This trims whitespace from strings.
+```{r}
+string <- "           hi               "
+trimmed <-str_trim(string)
+padded <- str_pad(trimmed,width=10,side="both")
+
+string
+trimmed
+padded
+```
+
+
+6. Write a function that turns (e.g.) a vector c("a", "b", "c") into the string a, b, and c. Think carefully about what it should do if given a vector of length 0, 1, or 2.
+
+A: This function will return an error for length 0, just the vector for length 1 and will combine following the above rule for any vector of size >=2.
+```{r}
+my_func <- function(string_vec){
+  L <- length(string_vec)
+  if(L==0) {
+    stop('The length of the string is 0')
+  }
+  if(L==1){
+    return(string_vec)
+  }
+  firstpart <-
+    str_c(string_vec[1:L-1], collapse = ", ")
+  secondpart <-
+    str_c("and", string_vec[L], sep = " ")
+  final <- 
+    str_c(firstpart, secondpart, sep = ", ")
+  return(final)
+}
+```
+
+To test it:
+```{r}
+test <- letters[1:10]
+my_func(test)
+```
+
+
+## Exercises 2
+
+1. Explain why each of these strings don’t match a \: "\", "\\", "\\\".
+
+"\" Doesn't work because a backslash is recognized as the beginning of a special character. This will look for the next character.
+"\\" Doesn't work because this now escapes from itself and creates a plain backslash, not a regular expression.
+"\\\" Now has the issue of forming a single pair to create a backslash but the unpaired backslash now is looking at the next character.
+
+2. How would you match the sequence "'\ ?
+
+```{r}
+x <- "\"\'\\"
+writeLines(x)
+```
+
+
+3. What patterns will the regular expression \..\..\.. match? How would you represent it as a string?
+
+This will match anything that looks like "\.a\.a\.a".
+```{r}
+x <- "\\..\\..\\.."
+writeLines(x)
+```
+## Exercises 3
+
+1. How would you match the literal string "\$^$"
+
+```{r}
+x <- "$^$"
+writeLines(x)
+str_match(x,"\\$\\^\\$")
+```
+
+
+2. Create regular expressions that find:
+* Start with "y"
+* Ends with "x"
+* Are exactly three letters long
+* Have seven letters or more
+```{r}
+test <- c("york","latex","abc","a lot of letters")
+str_match(test,"^y")
+str_match(test,"x$")
+str_match(test,"^...$")
+str_match(test,".......")
+```
+## Exercises 4
+
+1. Find all words that contain:
+* Start with a vowel
+* Only consonants
+* End with "ed" but not with eed
+* End with "ing" or "ise"
+
+```{r}
+test <- c("ao","qwrt","bed","beed","matching","ise")
+str_match(test,"^[aeiou]")
+str_match(test,str_c(rep("[^aeiou]",4),collapse=""))
+str_match(test,"[^e][e][d]$")
+str_match(test,"([i][n][g])|([i][s][e])$")
+```
+
+## Exercises 5
+
+1. Desribe the equivalences of "?", "+" and "*" in {m,n} format.
+
+A: ? - {0,1}, + - {1,}, * - {0,}
+
+
+# 5. Work with a list
+
+Here I will go through [Trump Android Tweets](https://jennybc.github.io/purrr-tutorial/ls08_trump-tweets.html)
+
+Loading the data
+ 
+```{r}
+library(purrr)
+suppressMessages(library(dplyr))
+library(tibble)
+
+load(url("http://varianceexplained.org/files/trump_tweets_df.rda"))
+glimpse(trump_tweets_df)
+```
+```{r}
+tweets <- trump_tweets_df$text
+tweets %>% head() %>% strtrim(70)
+regex <- "badly|crazy|weak|spent|strong|dumb|joke|guns|funny|dead"
+```
+Here we select a few rows with the correct complexity to learn from
+```{r}
+tweets <- tweets[c(1, 2, 5, 6, 198, 347, 919)]
+tweets %>% strtrim(70)
+```
+In base r
+```{r}
+matches <- gregexpr(regex, tweets)
+str(matches)
+matches[[7]]
+```
+Base r isn't great. matches is quite ugly and hard to deal with.
+```{r}
+lengths(matches) #happens to exist
+sapply(matches,length) #not friendly
+vapply(matches,length,integer(1)) #base approach
+map_int(matches,length) #purrr way
+```
+## Exercise: Get a list of the match lengths
+```{r}
+match_length <- 
+  map(matches,~ attr(.x, which = "match.length"))
+match_length
+```
+## Exercise: Count "Trump words"
+
+Write a function that will count the number of these "Trump words".
+```{r}
+f <- function(x) sum(x>0)
+map(matches,f)
+```
+But a more compact way to get a vector of integers, we can use the purrr function:
+```{r}
+map_int(matches,~sum(.x>0))
+```
+## Excersise: Strip the attributes from matches
+
+
+## Reflection
+
+! Regular expressions are rough! I've learned them now two or three times and they're never fun! I didn't work through every single example as there are so many but I tried to do at least one in each section. I still probably need a formal lecture on some of the specifics, like grouping and backreferencing.
+
