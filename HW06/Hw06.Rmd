@@ -250,8 +250,39 @@ map_int(matches,~sum(.x>0))
 ```
 ## Excersise: Strip the attributes from matches
 
+Here we use the as.vector() function which will throw away non-vectorizable structure
+```{r}
+match_first <- map(matches,as.vector)
+str(match_first)
+```
+
+## Exercise: Find the final word that fits the "Trump word" criteria
+
+```{r}
+match_last <- map2(match_first, match_length, ~ .x+.y-1)
+match_last
+```
+
+## Put it all together using pmap
+
+This will find all the "Trump words" in a tweet and pull them out.
+```{r}
+pmap(list(text=tweets,first=match_first,last=match_last),.f=substring)
+```
+
+Just to put it all in one place and take advantage of the fact that pmap can operate over any structure that has the same lengths.
+```{r}
+trump_frame <-tibble(
+  text = tweets,
+  first = match_first,
+  last = match_last
+)
+pmap(trump_frame, substring)
+```
 
 ## Reflection
 
 ! Regular expressions are rough! I've learned them now two or three times and they're never fun! I didn't work through every single example as there are so many but I tried to do at least one in each section. I still probably need a formal lecture on some of the specifics, like grouping and backreferencing.
+
+As for using purrr functions over strings, I found this to be incredibly easy and I can see why there are better alternatives to base R.
 
