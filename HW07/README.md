@@ -10,7 +10,7 @@ First script: download some data: [00_downloader.R](https://github.com/Mathnstei
 
 Second script: read the data, order it, make a few plots from the data, write out an ordered file [01_exploratory.R](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW07/01_exploratory.R), this will produce two images, one image like this [scatterplot_analysis_lifeexp_vs_year.png](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW07/scatterplot_analysis_lifeexp_vs_year.png):
 
-![](Scatterplot_analysis_lifeexp_vs_year.png)
+![](scatterplot_analysis_lifeexp_vs_year.png)
 
 the other is [Scatterplot_totalpop_vs_year.png](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW07/Scatterplot_totalpop_vs_year.png). Then the file will store the ordered data (By continent and then by life expectancy) in [gap_clean.tsv](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW07/gap_clean.tsv)
 
