@@ -9,6 +9,6 @@ outputs <- c("gapminder.tsv",                     # 00_downloader.R
 file.remove(outputs)
 
 ## run my scripts
-source("C:/Users/AsusW10/Documents/STAT545/STAT545-hw-wynes-chris/hw07/mydata/01_download_nba.R")
-source("C:/Users/AsusW10/Documents/STAT545/STAT545-hw-wynes-chris/hw07/mydata/02_organize_nba.R")
-source("C:/Users/AsusW10/Documents/STAT545/STAT545-hw-wynes-chris/hw07/mydata/03_plots_nba.R")
+source("00_downloader.R")
+source("01_exploratory.R")
+source("02_statistical.R")

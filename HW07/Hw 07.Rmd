@@ -1,0 +1,16 @@
+---
+title: "Hw 07"
+author: "Cody"
+date: "November 15, 2017"
+output: pdf_document
+---
+
+# HW 07
+
+Here is the explanation of the pipeline for the gapminder dataset
+
+* First script: download some data: [00_downloader.R](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW07/00_downloader.R)
+* Second script: read the data, order it, make a few plots from the data, write out an ordered file [01_exploratory.R](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW07/01_exploratory.R)
+Third script: Perform statistical analysis and make plots over each continent [02_statistical.R]()
+Fourth script: The master file to run this pipeline [master.R]()
+A fifth script to rule them all, i.e. to run the others in sequence: Makefile
