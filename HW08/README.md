@@ -12,5 +12,5 @@ content.
 
 The R code that generates this app:
 
-* [Ui]()
-* [Server]()
+* [Ui](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW08/First_Shiny/ui.R)
+* [Server](https://github.com/Mathnstein/STAT545-hw-griffith-cody/blob/master/HW08/First_Shiny/server.R)
