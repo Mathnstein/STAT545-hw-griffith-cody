@@ -1,0 +1,12 @@
+name: first_shiny
+title:
+username:
+account: mathnstein
+server: shinyapps.io
+hostUrl: https://api.shinyapps.io/v1
+appId: 236348
+bundleId: 1081578
+url: https://mathnstein.shinyapps.io/first_shiny/
+when: 1510943187.25395
+asMultiple: FALSE
+asStatic: FALSE
